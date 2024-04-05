@@ -12,9 +12,6 @@ Proje sayımız ilerledikçe proje yönetimimizi kolaylaştırmak adına projele
 ### Course Rest Api
 
  ### Başlangıç
- * Spring Initializr kullanarak bir Spring Boot projesi oluşturun.
- * İçerisinde ```Spring Web``` dependency eklenmeli.
- * Maven dependency management sistemini kullanarak tüm dependencyleri install edin.
  * Uygulamanızı  ```9000``` portundan ayağa kaldırın.
  * Bir öğrenci için rest api dizayn etmeniz istenmektedir.
 
