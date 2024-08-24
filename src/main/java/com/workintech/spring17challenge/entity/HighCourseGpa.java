@@ -1,4 +1,7 @@
-package com.workintech.spring17challenge.model;
+package com.workintech.spring17challenge.entity;
+
+
+
 
 public class HighCourseGpa implements CourseGpa{
     @Override
