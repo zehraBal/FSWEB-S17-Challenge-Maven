@@ -16,6 +16,7 @@ public class TotalGpaCalculator {
             return totalGpa;
         } else if (course.getCredit()==4) {
             totalGpa=course.getGrade().getCoefficient() * course.getCredit() * highCourseGpa.getGpa();
+            return totalGpa;
         }
         return 0;
     }
