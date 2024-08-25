@@ -14,21 +14,14 @@ import java.util.List;
 @RequestMapping("/courses")
 public class CourseController {
     public List<Course> courses;
-    private LowCourseGpa lowCourseGpa;
-    private MediumCourseGpa mediumCourseGpa;
-    private HighCourseGpa highCourseGpa;
-
-    @PostConstruct
-    public void init(){
-        courses=new ArrayList<>();
-    }
+    private final TotalGpaCalculator totalGpaCalculator;
 
     @Autowired
-    public CourseController(LowCourseGpa lowCourseGpa,MediumCourseGpa mediumCourseGpa, HighCourseGpa highCourseGpa){
-        this.highCourseGpa=highCourseGpa;
-        this.mediumCourseGpa=mediumCourseGpa;
-        this.lowCourseGpa=lowCourseGpa;
+    public CourseController(TotalGpaCalculator totalGpaCalculator) {
+        this.totalGpaCalculator = totalGpaCalculator;
+        courses = new ArrayList<>();
     }
+
 
     @GetMapping
     public List<Course> getAllCourses(){
@@ -65,14 +58,13 @@ public class CourseController {
 //        }
         if(!courses.contains(course)) {
             courses.add(course);
-            int totalGpa = TotalGpaCalculator.calculateTotalGPA(course);
+            int totalGpa = totalGpaCalculator.calculateTotalGPA(course);
             return new CourseResult(totalGpa, course);
         }
         return null;
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
     public CourseResult updateCourse(@PathVariable int id,@RequestBody Course course) {
         if(id<=0){
             throw new ApiException("ID must be greater than 0",HttpStatus.BAD_REQUEST);
@@ -81,7 +73,7 @@ public class CourseController {
             if(c.getId()==id){
                 courses.remove(c);
                 courses.add(new Course(id, course.getName(), course.getCredit(), course.getGrade()));
-                return new CourseResult(TotalGpaCalculator.calculateTotalGPA(course), course);
+                return new CourseResult(totalGpaCalculator.calculateTotalGPA(course), course);
 
             }else{
                 throw new ApiException("Course you are looking for with this ID doesn't exist",HttpStatus.NOT_FOUND);
@@ -91,7 +83,6 @@ public class CourseController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
     public void deleteCourse(@PathVariable int id){
         if(id<=0){
             throw new ApiException("ID must be greater than 0",HttpStatus.BAD_REQUEST);

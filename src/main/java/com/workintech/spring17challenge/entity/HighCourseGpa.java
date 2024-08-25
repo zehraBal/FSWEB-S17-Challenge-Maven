@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class HighCourseGpa implements CourseGpa{
     @Override
-    public int getGpa(){
+    public  int getGpa(){
         return 10;
     }
 }
